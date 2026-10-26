@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#281a32" />
+    <meta
+      name="description"
+      content="Step into a starry little circus: catch the white-haired jester and dodge the trickster."
+    />
+    <title>Pip-Pop Circus — the catching game</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="game.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Pip Pop home">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          <span>Pip-Pop Circus</span>
+        </a>
+        <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="true" aria-label="Turn music and sound off">
+          <span id="sound-icon" aria-hidden="true">♫</span>
+          <span id="sound-label">Music &amp; sound</span>
+        </button>
+      </header>
+
+      <section class="screen home-screen" id="home-screen">
+        <div class="intro">
+          <div class="intro-copy-block">
+            <div class="eyebrow"><span class="eyebrow-dot"></span> The midway is open</div>
+            <h1>Step right up.<br /><span class="text-sunshine">Meet your match.</span></h1>
+            <p class="intro-copy">
+              Catch the white-haired jester as he pops around the big top.
+              But watch out — his diamond-dressed double is not part of the act.
+            </p>
+          </div>
+          <div class="hero-mascot" id="hero-mascot" aria-hidden="true"></div>
+        </div>
+
+        <div class="game-card">
+          <div class="mode-heading">
+            <div>
+              <p class="section-kicker">Step into the spotlight</p>
+              <h2>Choose your act</h2>
+            </div>
+            <span class="unlock-note" id="unlock-note">2 more modes unlock at 100</span>
+          </div>
+
+          <div class="mode-list" role="group" aria-label="Game modes">
+            <button class="mode-card is-selected" type="button" data-mode="normal" aria-pressed="true">
+              <span class="mode-icon mode-icon--normal" aria-hidden="true">☀</span>
+              <span class="mode-copy">
+                <span class="mode-name">Normal</span>
+                <span class="mode-description">Catch 100 little jesters. The trickster joins at 20.</span>
+              </span>
+              <span class="mode-check" aria-hidden="true">✓</span>
+            </button>
+            <button class="mode-card is-locked" type="button" data-mode="hard" aria-pressed="false" disabled>
+              <span class="mode-icon mode-icon--hard" aria-hidden="true">⚡</span>
+              <span class="mode-copy">
+                <span class="mode-name">Hard</span>
+                <span class="mode-description">A fast jester, three diamond-dressed tricksters.</span>
+              </span>
+              <span class="mode-lock" aria-label="Locked">🔒</span>
+            </button>
+            <button class="mode-card is-locked" type="button" data-mode="endless" aria-pressed="false" disabled>
+              <span class="mode-icon mode-icon--endless" aria-hidden="true">∞</span>
+              <span class="mode-copy">
+                <span class="mode-name">Endless</span>
+                <span class="mode-description">One trickster, one jester. Keep the act going.</span>
+              </span>
+              <span class="mode-lock" aria-label="Locked">🔒</span>
+            </button>
+          </div>
+
+          <div class="card-footer">
+            <p class="control-hint"><span aria-hidden="true">✦</span> Hover or tap the smiling jester</p>
+            <button class="primary-button" id="start-button" type="button">
+              <span>Let’s play</span><span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+        <p class="tiny-note">A little moonlight, a few bells, and one very silly show.</p>
+      </section>
+
+      <section class="screen play-screen" id="play-screen" hidden>
+        <div class="play-heading">
+          <div>
+            <p class="section-kicker" id="mode-label">Normal mode</p>
+            <h1 id="play-title">The show is yours!</h1>
+          </div>
+          <button class="quiet-button" id="back-button" type="button">
+            <span aria-hidden="true">←</span> Modes
+          </button>
+        </div>
+
+        <div class="score-row" aria-label="Game score">
+          <div class="score-box">
+            <span class="score-label">TICKETS</span>
+            <span class="score-value" id="score-value">0</span>
+          </div>
+          <div class="progress-box">
+            <div class="progress-copy">
+              <span id="progress-label">Your first 100</span>
+              <span id="progress-value">0 / 100</span>
+            </div>
+            <div
+              class="progress-track"
+              id="progress-track"
+              role="progressbar"
+              aria-label="Progress to 100 points"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <span class="progress-fill" id="progress-fill"></span>
+            </div>
+          </div>
+          <div class="danger-box">
+            <span class="danger-icon" aria-hidden="true">♟</span>
+            <span id="danger-label">The trickster arrives at 20</span>
+          </div>
+        </div>
+
+        <div class="arena" id="arena" aria-label="Circus playfield">
+          <div class="big-top" aria-hidden="true">
+            <span class="big-top-bulbs"></span>
+            <span class="big-top-flag">✦</span>
+          </div>
+          <div class="arena-glow arena-glow--one" aria-hidden="true"></div>
+          <div class="arena-glow arena-glow--two" aria-hidden="true"></div>
+          <div class="arena-stars" aria-hidden="true">✦ <span>·</span> ✧ <span>·</span> ✦</div>
+          <div class="audience audience--left" aria-hidden="true">●　✦　●</div>
+          <div class="audience audience--right" aria-hidden="true">✦　●　✦</div>
+          <div class="stage-floor" aria-hidden="true"></div>
+          <div class="trickster-warning" id="trickster-warning" role="status" hidden>
+            <img src="assets/trickster-game-over.png" alt="" />
+            <span>Last call! The trickster joins on your next ticket.</span>
+          </div>
+          <div class="target-layer" id="target-layer"></div>
+          <div class="outcome-card" id="outcome-card" hidden>
+            <div class="outcome-art" id="outcome-art" aria-hidden="true"></div>
+            <span class="outcome-icon" id="outcome-icon" aria-hidden="true">✨</span>
+            <p class="section-kicker" id="outcome-kicker">Nice catching!</p>
+            <h2 id="outcome-title">You did it!</h2>
+            <p class="outcome-copy" id="outcome-copy"></p>
+            <div class="outcome-actions">
+              <button class="primary-button" id="retry-button" type="button">
+                <span>Play again</span><span aria-hidden="true">↻</span>
+              </button>
+              <button class="quiet-button" id="outcome-home-button" type="button">Choose a mode</button>
+            </div>
+          </div>
+        </div>
+        <div class="play-footer">
+          <p id="play-hint"><span class="hint-spark" aria-hidden="true">✦</span> Catch the smiling jester. Avoid the trickster!</p>
+          <span class="footer-decoration" aria-hidden="true">✳ &nbsp; ✦ &nbsp; ✳</span>
+        </div>
+        <p class="visually-hidden" id="announcer" aria-live="polite"></p>
+      </section>
+    </main>
+  </body>
+</html>
