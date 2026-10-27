@@ -1,31 +1,44 @@
 # Pip-Pop Circus
 
-A little browser catching game beneath the big top. Catch the white-haired,
-bell-trimmed jester for tickets; catching his diamond-patterned trickster double
-ends the show. The in-game chibi costumes and end-screen artwork use the
-character references supplied for the game.
-
-## Play online
-
-Once the GitHub Pages deployment has completed, play at
-[Pip-Pop Circus](https://dani-tiger.github.io/Aiclassrepo/).
+A polished browser game beneath the big top. Catch the white-haired jester for
+tickets, avoid the tricksters, and see how many acts you can survive. The
+in-game characters are drawn as SVGs; the win and game-over screens use the
+character artwork supplied for the game.
 
 ## Play
 
-Open `index.html` in a modern browser. No build step or dependencies are needed.
-The game's carnival waltz and short musical effects are generated in the browser,
-so no audio files need to be downloaded. Start a game to begin the music.
-Each successful catch plays an original squeaky chirp and celebrates with an
-arms-up pose. At 19 tickets in Normal mode, a warning appears before the
-trickster joins at 20. The game-over and win screens feature the supplied
-spooky trickster and rose-carrying jester artwork.
+Open `index.html` in a modern browser. There is no build step or dependency
+install. The carnival music and sound effects are synthesized in the browser;
+start a game to begin the music. Use a mouse, pen, touchpad, or touchscreen to
+catch the smiling jester. Turn off music and sound with the button in the
+header.
 
-- **Normal:** Catch 100 jesters. The trickster joins in at 20 points.
-- **Hard:** Unlock by reaching 100 in Normal. Catch the faster jester while
-  avoiding three tricksters.
-- **Endless:** Also unlocked at 100 in Normal. Keep catching with one trickster
-  in play; your score can keep climbing.
+## Acts and unlocks
 
-The jester moves faster as your score grows. Use a mouse, pen, touchpad, or
-touchscreen. Music and sound can be turned off with the sound button. Unlocks
-are saved in your browser.
+- **Normal:** Catch 100 jesters. The trickster appears at 20 tickets, with a
+  warning at 19. Winning unlocks Hard and Endless.
+- **Hard:** Catch 100 jesters while avoiding three faster tricksters. Winning
+  unlocks Lunatic.
+- **Lunatic:** Catch 100 jesters among five tricksters and a purple mimic. The
+  tricksters stay still. The good jester also stays still and is dangerous to
+  catch while disguised as a trickster; catch the purple one to reveal it.
+- **Endless:** Keep catching up to 200 tickets. Every 20 tickets, choose one of
+  three cards; each pairs a player buff with its matching trickster drawback.
+  Reaching 200 unlocks Secret.
+- **Secret:** Catch 100 jesters while random helpful and harmful events change
+  the show. Each 25 tickets adds another trickster. A very rare cat can unlock
+  the Pip-Paw Circus side-show.
+- **Pip-Paw Circus:** Whack as many jesters as you can in 30 seconds; three
+  misses end the round.
+
+Progress and achievements are saved in this browser. Pip-Paw daily, weekly,
+and all-time scoreboards are also stored locally on this device—they are not
+shared online or between browsers.
+
+The Achievements tab tracks twenty unlocks and provides hints for each one.
+
+## Published version
+
+The currently published game is at
+[Pip-Pop Circus on GitHub Pages](https://dani-tiger.github.io/Aiclassrepo/).
+The local source may include changes that are not on the published page yet.
