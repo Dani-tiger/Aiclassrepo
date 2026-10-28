@@ -222,6 +222,7 @@ function updateModeCards() {
 
 function unlockEverythingFromAchievement() {
   save.unlocked = { hard: true, lunatic: true, endless: true, secret: true, pipPaw: true };
+  awardAchievement("cheater");
   awardAchievement("pip-paw");
   persistSave();
   updateModeCards();

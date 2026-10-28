@@ -33,7 +33,8 @@ their normal size.
 The Achievements tab tracks 24 achievements. Each regular achievement earns
 one in-game poker chip; four special achievements do not award chips. A hidden
 secret on the unknown Pip-Paw achievement unlocks all game modes and Pip-Paw
-Circus, without granting the other achievements.
+Circus, and awards the special “You cheater” achievement without granting
+other achievements.
 
 Spend one chip per Lucky Wheel spin to win one of 20 unique paired cards for
 future Endless drafts. A card cannot be won twice and leaves the wheel after
