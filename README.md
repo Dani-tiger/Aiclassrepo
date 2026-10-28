@@ -19,11 +19,8 @@ Music and sound effects are synthesized in the browser.
   drawback. Reaching 200 tickets unlocks Secret while the Endless run
   continues.
 - **Secret:** Catch 250 jesters while random helpful and harmful events change
-  the show. A rare cat can unlock Pip-Paw Circus; after 50 tickets, the cat
-  event chance doubles. A blue jester can pause the timer and player controls
-  for five seconds while the targets keep moving.
-- **Pip-Paw Circus:** Whack as many jesters as you can in 30 seconds; three
-  misses end the round.
+  the show. Be patient and a special secret surprise may arrive
+- **Secret Secret mode:** Find out
 
 The playfield expands to use the available screen while jester targets keep
 their normal size.
@@ -32,9 +29,7 @@ their normal size.
 
 The Achievements tab tracks 24 achievements. Each regular achievement earns
 one in-game poker chip; four special achievements do not award chips. A hidden
-secret on the unknown Pip-Paw achievement unlocks all game modes and Pip-Paw
-Circus, and awards the special “You cheater” achievement without granting
-other achievements.
+secret unlocks the special “You cheater” achievement. Find it.
 
 Spend one chip per Lucky Wheel spin to win one of 20 unique paired cards for
 future Endless drafts. A card cannot be won twice and leaves the wheel after
@@ -44,7 +39,7 @@ remaining rarities. Chips and cards are virtual and saved in this browser;
 there is no real-money gambling. Won collectible cards can sometimes appear
 among the three Endless choices.
 
-Game progress, chips, collectibles, achievements, and Pip-Paw daily, weekly,
+Game progress, chips, collectibles, achievements, and Secret secret daily, weekly,
 and all-time scoreboards are stored locally on this device. Scores are not
 shared online or between browsers.
 
