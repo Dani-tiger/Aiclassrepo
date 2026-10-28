@@ -48,7 +48,8 @@
 
         <nav class="home-tabs" aria-label="Game menu">
           <button class="home-tab is-active" data-panel="modes-panel" type="button" aria-pressed="true">The Acts</button>
-          <button class="home-tab" data-panel="achievements-panel" type="button" aria-pressed="false">Achievements <span class="tab-count" id="achievement-count">0/20</span></button>
+          <button class="home-tab" data-panel="achievements-panel" type="button" aria-pressed="false">Achievements <span class="tab-count" id="achievement-count">0/24</span></button>
+          <button class="home-tab" data-panel="gambling-panel" type="button" aria-pressed="false">The Lucky Wheel <span class="tab-count">🪙 <span id="chip-balance">0</span></span></button>
           <button class="home-tab" data-panel="leaderboards-panel" type="button" aria-pressed="false">Leaderboards</button>
           <button class="home-tab" id="pip-paw-tab" data-panel="pip-paw-panel" type="button" aria-pressed="false" hidden>Pip-Paw Circus ✦</button>
         </nav>
@@ -79,17 +80,17 @@
             </button>
             <button class="mode-card is-locked" type="button" data-mode="endless" aria-pressed="false" disabled>
               <span class="mode-icon mode-icon--endless" aria-hidden="true">∞</span>
-              <span class="mode-copy"><span class="mode-name">Endless</span><span class="mode-description">Choose one of three buff-and-drawback pairs every 20 tickets.</span></span>
+              <span class="mode-copy"><span class="mode-name">Endless</span><span class="mode-description">Keep going forever. Secret mode unlocks at 200 tickets.</span></span>
               <span class="mode-lock" aria-label="Locked">🔒</span>
             </button>
             <button class="mode-card is-locked" type="button" data-mode="secret" aria-pressed="false" disabled>
               <span class="mode-icon mode-icon--secret" aria-hidden="true">?</span>
-              <span class="mode-copy"><span class="mode-name">Secret</span><span class="mode-description">Reach 200 in Endless. The show has a mind of its own.</span></span>
+              <span class="mode-copy"><span class="mode-name">Secret</span><span class="mode-description">Survive to 250 tickets; every 25 brings another trickster.</span></span>
               <span class="mode-lock" aria-label="Locked">🔒</span>
             </button>
           </div>
           <div class="card-footer">
-            <p class="control-hint"><span aria-hidden="true">✦</span> Hover or tap the smiling jester</p>
+            <p class="control-hint"><span aria-hidden="true">✦</span> Secrets await</p>
             <button class="primary-button" id="start-button" type="button"><span>Let’s play</span><span aria-hidden="true">→</span></button>
           </div>
         </section>
@@ -97,9 +98,32 @@
         <section class="game-card home-panel" id="achievements-panel" hidden>
           <div class="mode-heading">
             <div><p class="section-kicker">Unusual souvenirs</p><h2>Achievements</h2></div>
-            <span class="unlock-note" id="achievement-summary">0 of 9 unlocked</span>
+            <span class="unlock-note" id="achievement-summary">0 of 24 unlocked</span>
           </div>
           <div class="achievement-list" id="achievement-list"></div>
+        </section>
+
+        <section class="game-card home-panel" id="gambling-panel" hidden>
+          <div class="mode-heading">
+            <div><p class="section-kicker">No real money · just circus chips</p><h2>The Lucky Wheel</h2></div>
+            <span class="unlock-note"><span id="gambling-chip-balance">0</span> 🪙 chips</span>
+          </div>
+          <p class="panel-description">Earn one chip per regular achievement. Each spin costs one chip and wins a one-of-a-kind paired card for future Endless drafts. A card leaves the wheel forever once won.</p>
+          <div class="roulette-layout">
+            <div class="roulette-machine">
+              <div class="roulette-pointer" aria-hidden="true">▼</div>
+              <div class="roulette-wheel" id="roulette-wheel" aria-hidden="true"><span>🎪</span></div>
+              <button class="primary-button" id="roulette-spin" type="button" disabled>Spin · 1 chip</button>
+              <p class="roulette-result" id="roulette-result" aria-live="polite">The wheel is waiting for a chip.</p>
+              <span class="roulette-remaining" id="roulette-remaining">20 / 20 cards remain</span>
+            </div>
+            <div class="roulette-side">
+              <div><h3>Rarity odds</h3><div class="roulette-odds" id="roulette-odds"></div></div>
+              <div><h3>Won cards · <span id="owned-card-count">0</span>/20</h3><div class="owned-card-list" id="owned-card-list"></div></div>
+            </div>
+          </div>
+          <h3 class="roulette-collection-title">Still on the wheel</h3>
+          <div class="roulette-collection" id="roulette-collection"></div>
         </section>
 
         <section class="game-card home-panel" id="leaderboards-panel" hidden>

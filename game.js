@@ -42,21 +42,46 @@ const ACHIEVEMENTS = [
   { id: "paw-ten", name: "Ten Tiny Bonks", hint: "The paw has a punch card. It is nearly full." },
   { id: "paw-misses", name: "Three Tiny Escapes", hint: "The jesters have formed a very small getaway committee." },
   { id: "cat-clicked", name: "The Cat Distribution System", hint: "You did not find the cat. The cat found you." },
+  { id: "cheater", name: "You cheater", hint: "The pawprint pass works. We are choosing not to ask why." , chipReward: false },
+  { id: "bluey", name: "Bluey's hereeeeeeeee", hint: "Blue is a color. Blue is also a five-second timeout.", chipReward: false },
+  { id: "gambling-first", name: "LETS GO GAMBLING", hint: "One chip enters. The wheel makes a little noise.", chipReward: false },
+  { id: "empty-wheel", name: "Looks like you're outta cards", hint: "The wheel has exactly twenty pockets. You found them all.", chipReward: false },
 ];
 const BUFF_CARDS = [
-  { id: "extra-time", name: "A longer spotlight", benefit: "+0.55 seconds to catch the jester", drawback: "Tricksters dash 15% faster", icon: "⏳" },
-  { id: "slow-baddies", name: "A little stage magic", benefit: "Tricksters take longer to dash", drawback: "One extra trickster joins the act", icon: "✨" },
-  { id: "second-chance", name: "A lucky bell", benefit: "One mistaken trickster catch is forgiven", drawback: "Your catch timer is 0.35 seconds shorter", icon: "🔔" },
-  { id: "fast-catch", name: "Quick little feet", benefit: "Good jester gets a little easier to catch", drawback: "The tricksters copy that speed", icon: "👟" },
-  { id: "extra-life", name: "A spare ticket", benefit: "Survive one timer running out", drawback: "A trickster steals 0.25 seconds from each timer", icon: "🎟" },
+  { id: "extra-time", name: "A longer spotlight", benefit: "+0.55 seconds to catch the jester", drawback: "Tricksters dash 15% faster", icon: "⏳", benefitEffect: { time: 550 }, drawbackEffect: { badDash: 0.85 } },
+  { id: "slow-baddies", name: "A little stage magic", benefit: "Tricksters take longer to dash", drawback: "One extra trickster joins the act", icon: "✨", benefitEffect: { badDash: 1.23 }, drawbackEffect: { badCount: 1 } },
+  { id: "second-chance", name: "A lucky bell", benefit: "One mistaken trickster catch is forgiven", drawback: "Your catch timer is 0.35 seconds shorter", icon: "🔔", benefitEffect: { freeMistakes: 1 }, drawbackEffect: { time: -350 } },
+  { id: "fast-catch", name: "Quick little feet", benefit: "Good jester gets a little easier to catch", drawback: "The tricksters copy that speed", icon: "👟", benefitEffect: { goodDash: 1.28 }, drawbackEffect: { badDash: 0.85 } },
+  { id: "extra-life", name: "A spare ticket", benefit: "Survive one timer running out", drawback: "A trickster steals 0.25 seconds from each timer", icon: "🎟", benefitEffect: { timerSaves: 1 }, drawbackEffect: { time: -250 } },
 ];
-const DRAWBACKS = {
-  "extra-time": "speed",
-  "slow-baddies": "extra",
-  "second-chance": "shorter-35",
-  "fast-catch": "copy",
-  "extra-life": "shorter-25",
-};
+const RARITY_ODDS = [
+  { id: "mishap", name: "Bad-ish", chance: 45 },
+  { id: "ordinary", name: "Average", chance: 30 },
+  { id: "shiny", name: "Good", chance: 18 },
+  { id: "marvelous", name: "Amazing", chance: 7 },
+];
+const ROULETTE_CARDS = [
+  { id: "stubby-spotlight", name: "Stubby Spotlight", rarity: "mishap", icon: "🕯️", benefit: "+0.25 seconds", drawback: "Tricksters dash 20% faster", benefitEffect: { time: 250 }, drawbackEffect: { badDash: 0.8 } },
+  { id: "bendy-bell", name: "Bendy Bell", rarity: "mishap", icon: "🔔", benefit: "Tricksters dash 10% slower", drawback: "Catch timer -0.3 seconds", benefitEffect: { badDash: 1.1 }, drawbackEffect: { time: -300 } },
+  { id: "dusty-boots", name: "Dusty Boots", rarity: "mishap", icon: "🥾", benefit: "Good jester dashes 10% slower", drawback: "One extra trickster", benefitEffect: { goodDash: 1.1 }, drawbackEffect: { badCount: 1 } },
+  { id: "tiny-umbrella", name: "Tiny Umbrella", rarity: "mishap", icon: "☂️", benefit: "One forgiven mistake", drawback: "Tricksters dash 10% faster", benefitEffect: { freeMistakes: 1 }, drawbackEffect: { badDash: 0.9 } },
+  { id: "squeaky-wheel", name: "Squeaky Wheel", rarity: "mishap", icon: "🛞", benefit: "Catch timer +0.35 seconds", drawback: "Good jester dashes 10% faster", benefitEffect: { time: 350 }, drawbackEffect: { goodDash: 0.9 } },
+  { id: "paper-crown", name: "Paper Crown", rarity: "ordinary", icon: "👑", benefit: "Catch timer +0.4 seconds", drawback: "Catch timer -0.2 seconds", benefitEffect: { time: 400 }, drawbackEffect: { time: -200 } },
+  { id: "soft-slippers", name: "Soft Slippers", rarity: "ordinary", icon: "🥿", benefit: "Good jester dashes 15% slower", drawback: "Tricksters dash 10% faster", benefitEffect: { goodDash: 1.15 }, drawbackEffect: { badDash: 0.9 } },
+  { id: "extra-cushion", name: "Extra Cushion", rarity: "ordinary", icon: "🛋️", benefit: "One forgiven mistake", drawback: "One extra trickster", benefitEffect: { freeMistakes: 1 }, drawbackEffect: { badCount: 1 } },
+  { id: "stagehand-map", name: "Stagehand Map", rarity: "ordinary", icon: "🗺️", benefit: "One fewer trickster (minimum one)", drawback: "Catch timer -0.25 seconds", benefitEffect: { badCount: -1 }, drawbackEffect: { time: -250 } },
+  { id: "warm-applause", name: "Warm Applause", rarity: "ordinary", icon: "👏", benefit: "Catch timer +0.6 seconds", drawback: "Good jester dashes 10% faster", benefitEffect: { time: 600 }, drawbackEffect: { goodDash: 0.9 } },
+  { id: "velvet-rope", name: "Velvet Rope", rarity: "shiny", icon: "🎀", benefit: "One fewer trickster (minimum one)", drawback: "Tricksters dash 15% faster", benefitEffect: { badCount: -1 }, drawbackEffect: { badDash: 0.85 } },
+  { id: "moonlit-lantern", name: "Moonlit Lantern", rarity: "shiny", icon: "🏮", benefit: "Catch timer +0.9 seconds", drawback: "One extra trickster", benefitEffect: { time: 900 }, drawbackEffect: { badCount: 1 } },
+  { id: "lucky-mittens", name: "Lucky Mittens", rarity: "shiny", icon: "🧤", benefit: "Two forgiven mistakes", drawback: "Catch timer -0.35 seconds", benefitEffect: { freeMistakes: 2 }, drawbackEffect: { time: -350 } },
+  { id: "sleepy-trickster", name: "Sleepy Trickster", rarity: "shiny", icon: "😴", benefit: "Tricksters dash 22% slower", drawback: "Good jester dashes 12% faster", benefitEffect: { badDash: 1.22 }, drawbackEffect: { goodDash: 0.88 } },
+  { id: "golden-ticket", name: "Golden Ticket", rarity: "shiny", icon: "🎫", benefit: "Survive one timer running out", drawback: "Tricksters dash 12% faster", benefitEffect: { timerSaves: 1 }, drawbackEffect: { badDash: 0.88 } },
+  { id: "starlight-sash", name: "Starlight Sash", rarity: "marvelous", icon: "🌟", benefit: "Catch timer +1.25 seconds", drawback: "One extra trickster", benefitEffect: { time: 1250 }, drawbackEffect: { badCount: 1 } },
+  { id: "royal-decoy", name: "Royal Decoy", rarity: "marvelous", icon: "🎭", benefit: "Two fewer tricksters (minimum one)", drawback: "Catch timer -0.45 seconds", benefitEffect: { badCount: -2 }, drawbackEffect: { time: -450 } },
+  { id: "pocket-pause", name: "Pocket Pause", rarity: "marvelous", icon: "⏸️", benefit: "Survive two timer runouts", drawback: "Tricksters dash 18% faster", benefitEffect: { timerSaves: 2 }, drawbackEffect: { badDash: 0.82 } },
+  { id: "sleeping-moon", name: "Sleeping Moon", rarity: "marvelous", icon: "🌙", benefit: "Tricksters dash 30% slower", drawback: "Good jester dashes 15% faster", benefitEffect: { badDash: 1.3 }, drawbackEffect: { goodDash: 0.85 } },
+  { id: "circus-crown", name: "Circus Crown", rarity: "marvelous", icon: "🎪", benefit: "Catch timer +1 second and one forgiven mistake", drawback: "One extra trickster and timer -0.3 seconds", benefitEffect: { time: 1000, freeMistakes: 1 }, drawbackEffect: { badCount: 1, time: -300 } },
+];
 
 function freshSave() {
   return {
@@ -65,6 +90,10 @@ function freshSave() {
     losses: 0,
     leaderboards: [],
     pawBest: 0,
+    chips: 0,
+    ownedCards: [],
+    rouletteRemainingIds: ROULETTE_CARDS.map((card) => card.id),
+    pipPawAchievementTaps: 0,
   };
 }
 
@@ -79,6 +108,14 @@ function loadSave() {
       ...saved,
       unlocked: { ...defaults.unlocked, ...saved.unlocked },
       achievements: Array.isArray(saved.achievements) ? saved.achievements : [],
+      chips: Number.isSafeInteger(saved.chips) && saved.chips >= 0
+        ? saved.chips
+        : ACHIEVEMENTS.filter((achievement) => achievement.chipReward !== false && saved.achievements?.includes(achievement.id)).length,
+      ownedCards: Array.isArray(saved.ownedCards) ? saved.ownedCards.filter((id) => ROULETTE_CARDS.some((card) => card.id === id)) : [],
+      rouletteRemainingIds: Array.isArray(saved.rouletteRemainingIds)
+        ? saved.rouletteRemainingIds.filter((id) => ROULETTE_CARDS.some((card) => card.id === id))
+        : ROULETTE_CARDS.map((card) => card.id).filter((id) => !saved.ownedCards?.includes(id)),
+      pipPawAchievementTaps: Number.isSafeInteger(saved.pipPawAchievementTaps) && saved.pipPawAchievementTaps >= 0 ? saved.pipPawAchievementTaps : 0,
       leaderboards: Array.isArray(saved.leaderboards) ? saved.leaderboards : [],
       losses: Number.isSafeInteger(saved.losses) && saved.losses >= 0 ? saved.losses : 0,
       pawBest: Number.isSafeInteger(saved.pawBest) && saved.pawBest >= 0 ? saved.pawBest : 0,
@@ -99,6 +136,7 @@ let movementTimer;
 let countdownTimer;
 let eventTimer;
 let eventHideTimer;
+let blueFreezeTimer;
 let catchTimer;
 let timerDeadline = 0;
 let initialTimerDuration = 3600;
@@ -112,9 +150,10 @@ let mimicCleared = false;
 let freeMistakes = 0;
 let timerSaves = 0;
 let buffs = [];
-let enemyBuffs = [];
 let secretEvent = "none";
 let secretCatUsed = false;
+let inputFrozenUntil = 0;
+let rouletteSpinning = false;
 let selectedLeaderboard = "daily";
 let pawScore = 0;
 let pawMisses = 0;
@@ -136,15 +175,34 @@ function awardAchievement(id) {
   const achievement = ACHIEVEMENTS.find((item) => item.id === id);
   if (!achievement) return;
   save.achievements.push(id);
+  if (achievement.chipReward !== false) save.chips += 1;
   persistSave();
   announcer.textContent = `Achievement unlocked: ${achievement.name}`;
   showEvent(`${achievement.name} — souvenir unlocked!`, "celebration");
+  if (!$("#achievements-panel").hidden) renderAchievements();
 }
 
 function updateAchievementCount() {
   const count = save.achievements.length;
   $("#achievement-count").textContent = `${count}/${ACHIEVEMENTS.length}`;
   $("#achievement-summary").textContent = `${count} of ${ACHIEVEMENTS.length} unlocked`;
+  $("#chip-balance").textContent = String(save.chips);
+  $("#gambling-chip-balance").textContent = String(save.chips);
+}
+
+function getDraftCard(cardId) {
+  return [...BUFF_CARDS, ...ROULETTE_CARDS].find((card) => card.id === cardId);
+}
+
+function getCardEffectTotal(effectName, side) {
+  return buffs.reduce((total, cardId) => total + (getDraftCard(cardId)?.[`${side}Effect`]?.[effectName] || 0), 0);
+}
+
+function getCardEffectMultiplier(effectName) {
+  return buffs.reduce((product, cardId) => {
+    const card = getDraftCard(cardId);
+    return product * (card?.benefitEffect?.[effectName] || 1) * (card?.drawbackEffect?.[effectName] || 1);
+  }, 1);
 }
 
 function updateModeCards() {
@@ -160,6 +218,28 @@ function updateModeCards() {
   });
   const locked = Object.values(save.unlocked).filter((value) => !value).length;
   $("#unlock-note").textContent = locked ? `${locked} act${locked === 1 ? "" : "s"} waiting backstage` : "The whole circus is yours";
+}
+
+function unlockEverythingFromAchievement() {
+  save.unlocked = { hard: true, lunatic: true, endless: true, secret: true, pipPaw: true };
+  awardAchievement("pip-paw");
+  persistSave();
+  updateModeCards();
+  $("#pip-paw-tab").hidden = false;
+  renderAchievements();
+  showEvent("A hidden backstage pass unlocks every act and Pip-Paw Circus!", "celebration");
+  announcer.textContent = "Every game mode and Pip-Paw Circus are now unlocked!";
+}
+
+function tapPipPawAchievement(item) {
+  if (save.achievements.includes("pip-paw")) return;
+  save.pipPawAchievementTaps += 1;
+  if (save.pipPawAchievementTaps >= 5) {
+    save.pipPawAchievementTaps = 0;
+    unlockEverythingFromAchievement();
+    return;
+  }
+  persistSave();
 }
 
 function chooseMode(mode) {
@@ -234,14 +314,108 @@ function renderAchievements() {
   list.replaceChildren(...ACHIEVEMENTS.map((achievement, index) => {
     const unlocked = save.achievements.includes(achievement.id);
     const item = document.createElement("article");
+    const secretPass = achievement.id === "pip-paw" && !unlocked;
     item.className = `achievement-card${unlocked ? " is-earned" : ""}`;
+    item.dataset.achievement = achievement.id;
     const hint = unlocked
       ? achievement.hint
       : `${index < 3 ? "Hint" : index < 6 ? "A stranger hint" : "The hint is now looking back"}: ${achievement.hint}`;
-    item.innerHTML = `<span class="achievement-seal" aria-hidden="true">${unlocked ? "✦" : "?"}</span><span class="achievement-copy"><strong>${unlocked ? achievement.name : "???"}</strong><span>${hint}</span></span><span class="achievement-status">${unlocked ? "Earned" : "Secret"}</span>`;
+    const displayName = unlocked ? achievement.name : "???";
+    const displayHint = hint;
+    item.innerHTML = `<span class="achievement-seal" aria-hidden="true">${unlocked ? "✦" : "?"}</span><span class="achievement-copy"><strong>${displayName}</strong><span>${displayHint}</span></span><span class="achievement-status">${unlocked ? "Earned" : "Secret"}</span>`;
+    if (secretPass) {
+      item.tabIndex = 0;
+      item.setAttribute("role", "button");
+      item.addEventListener("click", () => tapPipPawAchievement(item));
+      item.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          tapPipPawAchievement(item);
+        }
+      });
+    }
     return item;
   }));
   updateAchievementCount();
+}
+
+function getAvailableRouletteCards() {
+  const remainingIds = new Set(save.rouletteRemainingIds);
+  return ROULETTE_CARDS.filter((card) => remainingIds.has(card.id));
+}
+
+function renderRoulette() {
+  const remaining = getAvailableRouletteCards();
+  const availableWeight = RARITY_ODDS
+    .filter((rarity) => remaining.some((card) => card.rarity === rarity.id))
+    .reduce((total, rarity) => total + rarity.chance, 0);
+  const odds = $("#roulette-odds");
+  odds.replaceChildren(...RARITY_ODDS.map((rarity) => {
+    const card = document.createElement("div");
+    const present = remaining.some((item) => item.rarity === rarity.id);
+    const actualChance = present ? Math.round((rarity.chance / availableWeight) * 1000) / 10 : 0;
+    card.className = `roulette-odds-card rarity-${rarity.id}${present ? "" : " is-empty"}`;
+    card.innerHTML = `<strong>${rarity.name}</strong><span>${actualChance.toFixed(actualChance % 1 ? 1 : 0)}% · ${remaining.filter((item) => item.rarity === rarity.id).length} left</span>`;
+    return card;
+  }));
+  const collection = $("#roulette-collection");
+  collection.replaceChildren(...remaining.map((card) => {
+    const entry = document.createElement("div");
+    entry.className = `roulette-card rarity-${card.rarity}`;
+    entry.innerHTML = `<span aria-hidden="true">${card.icon}</span><span>${card.name}</span>`;
+    return entry;
+  }));
+  const owned = ROULETTE_CARDS.filter((card) => save.ownedCards.includes(card.id));
+  $("#owned-card-count").textContent = String(owned.length);
+  const ownedList = $("#owned-card-list");
+  ownedList.replaceChildren(...(owned.length ? owned : [{ name: "No rare cards yet — the wheel is waiting." }]).map((card) => {
+    const entry = document.createElement("div");
+    entry.className = `owned-card${card.rarity ? ` rarity-${card.rarity}` : " is-empty"}`;
+    entry.textContent = card.name;
+    return entry;
+  }));
+  $("#roulette-spin").disabled = rouletteSpinning || save.chips < 1 || remaining.length === 0;
+  $("#roulette-spin").textContent = remaining.length === 0 ? "The wheel is empty!" : rouletteSpinning ? "The wheel is spinning…" : "Spin · 1 chip";
+  $("#roulette-remaining").textContent = `${remaining.length} / ${ROULETTE_CARDS.length} cards remain`;
+  updateAchievementCount();
+}
+
+function spinRoulette() {
+  const remaining = getAvailableRouletteCards();
+  if (rouletteSpinning || save.chips < 1 || remaining.length === 0) return;
+
+  const availableRarities = RARITY_ODDS.filter((rarity) => remaining.some((card) => card.rarity === rarity.id));
+  const totalWeight = availableRarities.reduce((total, rarity) => total + rarity.chance, 0);
+  let roll = Math.random() * totalWeight;
+  let selectedRarity = availableRarities[0];
+  for (const rarity of availableRarities) {
+    roll -= rarity.chance;
+    if (roll < 0) {
+      selectedRarity = rarity;
+      break;
+    }
+  }
+  const rarityCards = remaining.filter((card) => card.rarity === selectedRarity.id);
+  const wonCard = rarityCards[Math.floor(Math.random() * rarityCards.length)];
+
+  rouletteSpinning = true;
+  save.chips -= 1;
+  save.rouletteRemainingIds = save.rouletteRemainingIds.filter((id) => id !== wonCard.id);
+  save.ownedCards.push(wonCard.id);
+  awardAchievement("gambling-first");
+  if (save.rouletteRemainingIds.length === 0) awardAchievement("empty-wheel");
+  persistSave();
+  $("#roulette-wheel").classList.remove("is-spinning");
+  void $("#roulette-wheel").offsetWidth;
+  $("#roulette-wheel").classList.add("is-spinning");
+  $("#roulette-result").textContent = "The wheel is rattling…";
+  renderRoulette();
+  window.setTimeout(() => {
+    rouletteSpinning = false;
+    $("#roulette-wheel").classList.remove("is-spinning");
+    $("#roulette-result").textContent = `You won ${wonCard.icon} ${wonCard.name} · ${selectedRarity.name}! It may appear in an Endless draft.`;
+    renderRoulette();
+  }, 1500);
 }
 
 function setHomePanel(panelId) {
@@ -253,6 +427,7 @@ function setHomePanel(panelId) {
   });
   if (panelId === "achievements-panel") renderAchievements();
   if (panelId === "leaderboards-panel") renderLeaderboards();
+  if (panelId === "gambling-panel") renderRoulette();
 }
 
 function stopTimers() {
@@ -261,11 +436,15 @@ function stopTimers() {
   window.clearInterval(eventTimer);
   window.clearTimeout(eventHideTimer);
   window.clearTimeout(catchTimer);
+  window.clearTimeout(blueFreezeTimer);
   movementTimer = undefined;
   countdownTimer = undefined;
   eventTimer = undefined;
   eventHideTimer = undefined;
   catchTimer = undefined;
+  blueFreezeTimer = undefined;
+  inputFrozenUntil = 0;
+  targetLayer.classList.remove("is-input-frozen");
 }
 
 function showHome() {
@@ -287,6 +466,7 @@ function characterArt(kind, options = {}) {
     good: { coat: "#a8324b", light: "#ed6b71", hair: "#f7f0f3", shade: "#a79baa", trim: "#ffd77f", pattern: "#ffd46f" },
     bad: { coat: "#171720", light: "#28794e", hair: "#241629", shade: "#61415b", trim: "#b5d17c", pattern: "#66bc71" },
     mimic: { coat: "#553286", light: "#b363dc", hair: "#eadbff", shade: "#a987cc", trim: "#edd1ff", pattern: "#c784ef" },
+    blue: { coat: "#174e9c", light: "#61b8ff", hair: "#d8f3ff", shade: "#6495c2", trim: "#c6f4ff", pattern: "#69d5ff" },
   }[kind] || { coat: "#a8324b", light: "#ed6b71", hair: "#f7f0f3", shade: "#a79baa", trim: "#ffd77f", pattern: "#ffd46f" };
   const smile = kind === "bad"
     ? '<path d="M41 54q17 16 32-1-3 15-17 16-10-1-15-15Z" fill="#342439" stroke="#272038" stroke-width="2"/><path d="m49 59 3 5m7-3v5m7-8-2 5" stroke="#fff1d9" stroke-width="1.6" stroke-linecap="round"/>'
@@ -298,7 +478,9 @@ function characterArt(kind, options = {}) {
     ? '<path d="M7 0 14 7 7 14 0 7Z" fill="#61b96d"/><path d="M7 0 7 14 0 7Z" fill="#17261d" opacity=".82"/>'
     : kind === "mimic"
       ? '<path d="M7 0 14 7 7 14 0 7Z" fill="#e1aeff"/><path d="M7 0 7 14 0 7Z" fill="#67408f"/>'
-      : '<path d="m7 1 1.8 4 4.3.4-3.3 2.8 1 4.2L7 10.1l-3.8 2.3 1-4.2L.9 5.4 5.2 5Z" fill="#ffd46f"/>';
+      : kind === "blue"
+        ? '<path d="M7 0 14 7 7 14 0 7Z" fill="#a8e8ff"/><path d="M7 0 7 14 0 7Z" fill="#2368bd"/>'
+        : '<path d="m7 1 1.8 4 4.3.4-3.3 2.8 1 4.2L7 10.1l-3.8 2.3 1-4.2L.9 5.4 5.2 5Z" fill="#ffd46f"/>';
   const armsUp = options.armsUp ? " is-arms-up" : "";
 
   return `<svg class="jester-art jester-art--${kind}${armsUp}" viewBox="0 0 112 132" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -335,10 +517,9 @@ function getBadTargetCount() {
   if (activeMode === "hard") return 3;
   if (activeMode === "lunatic") return 5;
   if (activeMode === "endless") {
-    const extra = enemyBuffs.includes("extra") ? 1 : 0;
-    return 1 + Math.floor(score / 50) + extra;
+    return Math.max(1, 1 + Math.floor(score / 50) + getCardEffectTotal("badCount", "benefit") + getCardEffectTotal("badCount", "drawback"));
   }
-  if (activeMode === "secret") return 1 + Math.floor(score / 25) + (secretEvent === "extra" ? 1 : 0);
+  if (activeMode === "secret") return 1 + Math.floor(score / 25);
   return score >= 20 ? 1 : 0;
 }
 
@@ -400,10 +581,9 @@ function getTargetDashDelay(target) {
   if (activeMode === "hard") delay = target.kind === "bad" ? 1450 : 1190;
   if (activeMode === "lunatic") delay = target.kind === "bad" ? 980 : 850;
   if (activeMode === "secret") delay = target.kind === "bad" ? 1850 : 1530;
-  delay = delay * difficulty + Math.max(0, enemyBuffs.length - 1) * 90;
-  if (target.kind === "bad" && (enemyBuffs.includes("speed") || enemyBuffs.includes("copy"))) delay *= 0.85;
-  if (target.kind === "bad" && buffs.includes("slow-baddies")) delay *= 1.23;
-  if (activeMode === "endless" && buffs.includes("fast-catch") && target.kind === "good") delay *= 1.28;
+  delay *= difficulty;
+  if (target.kind === "bad") delay *= getCardEffectMultiplier("badDash");
+  if (target.kind === "good") delay *= getCardEffectMultiplier("goodDash");
   if (activeMode === "secret" && secretEvent === "fast") delay *= 0.57;
   if (activeMode === "secret" && secretEvent === "slow") delay *= 1.55;
   if (target.kind === "good" && activeMode === "hard") delay *= 0.85;
@@ -433,6 +613,7 @@ function createTarget(kind) {
   targets.push(target);
   targetLayer.append(element);
   moveTarget(target);
+  return target;
 }
 
 function renderTarget(target) {
@@ -440,6 +621,7 @@ function renderTarget(target) {
     good: "Catch the smiling jester",
     bad: "Trickster — do not catch",
     mimic: "Purple jester — reveal the good jester",
+    blue: "Blue jester — your controls are paused",
   };
   target.element.setAttribute("aria-label", names[target.kind] || "Jester");
   target.element.innerHTML = characterArt(
@@ -466,9 +648,7 @@ function getCatchDuration() {
     endless: 3600,
     secret: 3700,
   }[activeMode] || 3600;
-  duration += buffs.filter((buff) => buff === "extra-time").length * 550;
-  duration -= enemyBuffs.filter((buff) => buff === "shorter-35").length * 350;
-  duration -= enemyBuffs.filter((buff) => buff === "shorter-25").length * 250;
+  duration += getCardEffectTotal("time", "benefit") + getCardEffectTotal("time", "drawback");
   if (activeMode === "secret" && secretEvent === "short") duration -= 1100;
   if (activeMode === "secret" && secretEvent === "slow") duration += 1200;
   return Math.max(1350, duration);
@@ -505,12 +685,24 @@ function updateCatchTimer() {
 function updateScore() {
   $("#score-value").textContent = String(score);
   const endless = activeMode === "endless";
-  const progress = endless ? Math.min(score, 200) / 2 : Math.min(score, 100);
-  $("#progress-value").textContent = endless ? `${score} / 200` : `${score} / 100`;
-  $("#progress-label").textContent = endless ? "Secret show at 200" : "Your first 100";
+  const secret = activeMode === "secret";
+  const targetScore = secret ? 250 : 100;
+  const progress = endless ? Math.min(score, 200) / 2 : Math.min(score, targetScore);
+  $("#progress-value").textContent = endless ? `${score} · ∞` : `${score} / ${targetScore}`;
+  $("#progress-label").textContent = endless
+    ? score >= 200 ? "Secret unlocked · endless tickets" : "Secret show at 200"
+    : secret ? "The final curtain at 250" : "Your first 100";
   $("#progress-fill").style.width = `${progress}%`;
   $("#progress-track").setAttribute("aria-valuenow", String(progress));
-  $("#progress-track").setAttribute("aria-label", endless ? "Progress to 200 tickets" : "Progress to 100 tickets");
+  $("#progress-track").setAttribute("aria-label", endless ? "Endless tickets; Secret mode unlocks at 200" : `Progress to ${targetScore} tickets`);
+  if (endless && score >= 200) {
+    const newlyUnlocked = !save.unlocked.secret;
+    save.unlocked.secret = true;
+    awardAchievement("endless-200");
+    persistSave();
+    updateModeCards();
+    if (newlyUnlocked) showEvent("200 tickets! Secret mode is unlocked — keep going!", "celebration");
+  }
   const warning = activeMode === "normal" && score === 19;
   if (warning) awardAchievement("near-miss");
   const tricksterCount = activeMode === "secret"
@@ -624,7 +816,7 @@ function showEvent(message, kind = "") {
 }
 
 function maybeSpawnSecretCat() {
-  if (secretCatUsed || Math.random() > 0.035 || outcomeCard.hidden === false) return;
+  if (secretCatUsed || outcomeCard.hidden === false) return;
   secretCatUsed = true;
   const cat = document.createElement("button");
   cat.type = "button";
@@ -635,9 +827,6 @@ function maybeSpawnSecretCat() {
   const position = getTargetPosition(undefined, 56);
   cat.style.left = `${Math.max(28, Math.min(bounds.width - 28, position.x))}px`;
   cat.style.top = `${Math.max(76, Math.min(bounds.height - 44, position.y))}px`;
-  cat.addEventListener("pointerenter", (event) => {
-    if (event.pointerType === "mouse" || event.pointerType === "pen") unlockPipPaw(cat);
-  });
   cat.addEventListener("click", () => unlockPipPaw(cat));
   targetLayer.append(cat);
   showEvent("Something slipped between the curtains…", "mystery");
@@ -645,10 +834,11 @@ function maybeSpawnSecretCat() {
 }
 
 function triggerSecretEvent() {
-  if (outcomeCard.hidden === false || draftOverlay.hidden === false) return;
+  if (outcomeCard.hidden === false || draftOverlay.hidden === false || performance.now() < inputFrozenUntil) return;
   secretEvent = "none";
   const eventRoll = Math.random();
-  if (eventRoll < 0.035 && !secretCatUsed) {
+  const catChance = score >= 50 ? 0.07 : 0.035;
+  if (eventRoll < catChance && !secretCatUsed) {
     maybeSpawnSecretCat();
     return;
   }
@@ -658,9 +848,29 @@ function triggerSecretEvent() {
     { key: "short", text: "A gust stole some of your time!" },
     { key: "extra", text: "More tricksters tumble out of the wings!" },
     { key: "gift", text: "A loose ticket buys you a little extra time!" },
+    { key: "blue", text: "A blue jester freezes the clock and your controls for five seconds!" },
   ];
   const event = events[Math.floor(Math.random() * events.length)];
   secretEvent = event.key;
+  if (event.key === "blue") {
+    awardAchievement("bluey");
+    inputFrozenUntil = performance.now() + 5000;
+    timerDeadline += 5000;
+    targetLayer.classList.add("is-input-frozen");
+    const blueJester = createTarget("blue");
+    showEvent(event.text, "mystery");
+    blueFreezeTimer = window.setTimeout(() => {
+      blueJester.element.remove();
+      targets = targets.filter((target) => target !== blueJester);
+      inputFrozenUntil = 0;
+      secretEvent = "none";
+      targetLayer.classList.remove("is-input-frozen");
+      blueFreezeTimer = undefined;
+      showEvent("The blue jester vanished. Your controls are back!", "celebration");
+      updateScore();
+    }, 5000);
+    return;
+  }
   showEvent(event.text, event.key === "fast" || event.key === "short" || event.key === "extra" ? "danger" : "celebration");
   if (event.key === "gift") timerDeadline += 1600;
   if (event.key === "short") timerDeadline -= 1100;
@@ -702,19 +912,24 @@ function drawBuffDraft() {
   countdownTimer = undefined;
   draftOverlay.hidden = false;
   $("#draft-title").textContent = `Ticket ${score}: choose your pair`;
-  $("#draft-copy").textContent = "A buff for your jester, a matching drawback for the tricksters. Pick one.";
-  const choices = [...BUFF_CARDS].sort(() => Math.random() - 0.5).slice(0, 3);
+  $("#draft-copy").textContent = "A player buff and its matching trickster drawback come as a pair.";
+  const ownedCards = ROULETTE_CARDS.filter((card) => save.ownedCards.includes(card.id));
+  const choices = [...BUFF_CARDS].sort(() => Math.random() - 0.5).slice(0, ownedCards.length && Math.random() < 0.55 ? 2 : 3);
+  if (choices.length === 2) {
+    choices.push(ownedCards[Math.floor(Math.random() * ownedCards.length)]);
+  }
+  choices.sort(() => Math.random() - 0.5);
   const container = $("#draft-options");
   container.replaceChildren(...choices.map((choice) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "draft-card";
-    button.innerHTML = `<span class="draft-icon" aria-hidden="true">${choice.icon}</span><strong>${choice.name}</strong><span class="draft-benefit">Your buff · ${choice.benefit}</span><span class="draft-drawback">Trickster drawback · ${choice.drawback}</span>`;
+    button.innerHTML = `<span class="draft-icon" aria-hidden="true">${choice.icon}</span><strong>${choice.name}</strong><span class="draft-rarity">${choice.rarity ? `${RARITY_ODDS.find((rarity) => rarity.id === choice.rarity).name} collectible` : "Circus classic"}</span><span class="draft-benefit">Your buff · ${choice.benefit}</span><span class="draft-drawback">Trickster drawback · ${choice.drawback}</span>`;
     button.addEventListener("click", () => {
       buffs.push(choice.id);
-      enemyBuffs.push(DRAWBACKS[choice.id]);
-      if (choice.id === "extra-life") timerSaves += 1;
-      if (choice.id === "extra-life") awardAchievement("spare-ticket");
+      timerSaves += choice.benefitEffect.timerSaves || 0;
+      freeMistakes += choice.benefitEffect.freeMistakes || 0;
+      if (choice.benefitEffect.timerSaves) awardAchievement("spare-ticket");
       draftOverlay.hidden = true;
       showEvent(`${choice.name} picked. ${choice.drawback}!`, "mystery");
       drawTargets();
@@ -741,7 +956,7 @@ function finishGame(result) {
     showOutcomeArt("assets/pierrot-win-roses.png");
     $("#outcome-icon").textContent = "🌹";
     $("#outcome-kicker").textContent = "The whole tent is cheering!";
-    $("#outcome-title").textContent = activeMode === "endless" ? "Two hundred tickets!" : "Encore!";
+    $("#outcome-title").textContent = activeMode === "secret" ? "Two hundred and fifty tickets!" : "Encore!";
     $("#outcome-copy").textContent = `${MODE_NAMES[activeMode]} act complete — you caught ${score} jesters!`;
     playWinSound();
     if (activeMode === "normal") {
@@ -756,10 +971,6 @@ function finishGame(result) {
     } else if (activeMode === "lunatic") {
       awardAchievement("lunatic-win");
       announcer.textContent = "You beat Lunatic mode. Try hard achievement unlocked!";
-    } else if (activeMode === "endless") {
-      awardAchievement("endless-200");
-      save.unlocked.secret = true;
-      announcer.textContent = "Two hundred in Endless! Secret mode is unlocked.";
     } else if (activeMode === "secret") {
       awardAchievement("secret-win");
       announcer.textContent = "You beat Secret mode. Really like this? achievement unlocked!";
@@ -794,8 +1005,8 @@ function showOutcomeArt(source) {
 }
 
 function recordMistake() {
-  if (activeMode === "endless" && buffs.includes("second-chance") && freeMistakes === 0) {
-    freeMistakes += 1;
+  if (activeMode === "endless" && freeMistakes > 0) {
+    freeMistakes -= 1;
     showEvent("Your lucky bell bounced off a trickster!", "celebration");
     return false;
   }
@@ -803,7 +1014,7 @@ function recordMistake() {
 }
 
 function activateTarget(target) {
-  if (outcomeCard.hidden === false || draftOverlay.hidden === false || target.element.dataset.hit === "true") return;
+  if (outcomeCard.hidden === false || draftOverlay.hidden === false || performance.now() < inputFrozenUntil || target.kind === "blue" || target.element.dataset.hit === "true") return;
   target.element.dataset.hit = "true";
   if (target.kind === "mimic") {
     mimicCleared = true;
@@ -843,11 +1054,11 @@ function activateTarget(target) {
   const currentRound = roundNumber;
   catchTimer = window.setTimeout(() => {
     if (roundNumber !== currentRound) return;
-    if (activeMode === "endless" && score >= 200) {
+    if (activeMode === "secret" && score >= 250) {
       finishGame("win");
       return;
     }
-    if (activeMode !== "endless" && score >= 100) {
+    if (activeMode !== "endless" && activeMode !== "secret" && score >= 100) {
       finishGame("win");
       return;
     }
@@ -872,9 +1083,10 @@ function startGame() {
   freeMistakes = 0;
   timerSaves = 0;
   buffs = [];
-  enemyBuffs = [];
   secretEvent = "none";
   secretCatUsed = false;
+  inputFrozenUntil = 0;
+  targetLayer.classList.remove("is-input-frozen");
   homeScreen.hidden = true;
   pawScreen.hidden = true;
   playScreen.hidden = false;
@@ -1009,6 +1221,7 @@ $$(".leaderboard-tab").forEach((tab) => {
 });
 
 $("#start-button").addEventListener("click", startGame);
+$("#roulette-spin").addEventListener("click", spinRoulette);
 $("#brand-home").addEventListener("click", (event) => {
   event.preventDefault();
   showHome();
@@ -1052,6 +1265,7 @@ function initialize() {
   updateModeCards();
   updateAchievementCount();
   renderAchievements();
+  renderRoulette();
   renderLeaderboards();
   updateHomeArt();
   $("#timer-row").hidden = true;
