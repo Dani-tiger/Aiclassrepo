@@ -471,7 +471,12 @@ function characterArt(kind, options = {}) {
   }[kind] || { coat: "#a8324b", light: "#ed6b71", hair: "#f7f0f3", shade: "#a79baa", trim: "#ffd77f", pattern: "#ffd46f" };
   const smile = kind === "bad"
     ? '<path d="M41 54q17 16 32-1-3 15-17 16-10-1-15-15Z" fill="#342439" stroke="#272038" stroke-width="2"/><path d="m49 59 3 5m7-3v5m7-8-2 5" stroke="#fff1d9" stroke-width="1.6" stroke-linecap="round"/>'
-    : '<path d="M42 54q16 13 32 0-3 16-16 17-13-1-16-17Z" fill="#342439" stroke="#272038" stroke-width="2"/><path d="M47 58q11 5 22 0l-2 6q-9 4-18 0Z" fill="#fff8e9"/><path d="M53 59v6m6-6v6m6-6v5" stroke="#b8acaa" stroke-width="1"/>';
+    : kind === "good"
+      ? ""
+      : '<path d="M42 54q16 13 32 0-3 16-16 17-13-1-16-17Z" fill="#342439" stroke="#272038" stroke-width="2"/><path d="M47 58q11 5 22 0l-2 6q-9 4-18 0Z" fill="#fff8e9"/><path d="M53 59v6m6-6v6m6-6v5" stroke="#b8acaa" stroke-width="1"/>';
+  const face = kind === "good"
+    ? '<path d="M29 40Q31 17 56 17Q81 17 83 40Q82 57 70 62Q56 68 42 62Q30 57 29 40Z" fill="#fff8ed" stroke="#302a39" stroke-width="2"/>'
+    : '<path d="M29 40q1-22 27-23 26 1 27 23-5 21-27 27-22-6-27-27Z" fill="#fff8ed" stroke="#302a39" stroke-width="2"/>';
   const eyes = kind === "bad"
     ? '<path d="m43 39 9 2-9 5m29-7-9 2 9 5" fill="none" stroke="#19432c" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>'
     : '<path d="M41 43q5-7 11 0m14 0q5-7 11 0" fill="none" stroke="#262137" stroke-width="3.5" stroke-linecap="round"/>';
@@ -506,9 +511,10 @@ function characterArt(kind, options = {}) {
       <path d="M24 39Q8 23 25 6q11 4 22 23m41 10Q104 22 88 6q-11 4-21 23" fill="${colors.coat}" stroke="#20243a" stroke-width="2.5"/>
       <path d="M24 39Q8 23 25 6q11 4 22 23m41 10Q104 22 88 6q-11 4-21 23" fill="url(#fabric-${id})"/>
       <circle cx="9" cy="85" r="4.5" fill="url(#gold-${id})" stroke="#543d34" stroke-width="1.3"/><circle cx="103" cy="85" r="4.5" fill="url(#gold-${id})" stroke="#543d34" stroke-width="1.3"/>
-      <path d="M29 40q1-22 27-23 26 1 27 23-5 21-27 27-22-6-27-27Z" fill="#fff8ed" stroke="#302a39" stroke-width="2"/>
+      ${face}
+      ${kind === "good" ? '<path d="M27 51Q33 55 39 51Q45 57 51 53Q56 58 62 53Q68 57 74 51Q80 55 85 51L82 59Q79 66 73 61Q68 69 62 63Q56 71 50 64Q44 70 39 63Q33 68 29 59Z" fill="#fff8e9" stroke="#d4c7bd" stroke-width="1.5" stroke-linejoin="round"/>' : ""}
       <path d="M31 43q-8-22 10-29l15 8q-13 1-19 18m44 3q8-22-10-29L56 22q13 1 19 18" fill="url(#hair-${id})" stroke="${colors.shade}" stroke-width="1.7" stroke-linejoin="round"/>
-      <path d="M40 23q-9 7-8 21l-5 12q-1 8-6 13 14-1 20-18m27-28q10 8 9 21l5 12q1 8 6 13-14-1-20-18" fill="url(#hair-${id})" stroke="${colors.shade}" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M40 23q-9 7-8 21l-5 12q-1 8-6 13 14-1 20-18m31-28q10 8 9 21l5 12q1 8 6 13-14-1-20-18" fill="url(#hair-${id})" stroke="${colors.shade}" stroke-width="1.5" stroke-linejoin="round"/>
       ${eyes}${smile}
       <path d="M47 19Q39 9 32 13L23 7q8-9 19-4 9 3 14 12 5-9 14-12 11-5 19 4l-9 6q-7-4-15 6l-9 11Z" fill="url(#hair-${id})" stroke="${colors.shade}" stroke-width="1.8" stroke-linejoin="round"/>
     </g></svg>`;
