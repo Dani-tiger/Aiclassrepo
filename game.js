@@ -452,6 +452,7 @@ function showHome() {
   stopTimers();
   stopMusic();
   roundNumber += 1;
+  $(".app-shell").classList.remove("is-playing");
   playScreen.hidden = true;
   pawScreen.hidden = true;
   homeScreen.hidden = false;
@@ -1084,6 +1085,7 @@ function startGame() {
   stopTimers();
   stopMusic();
   roundNumber += 1;
+  $(".app-shell").classList.add("is-playing");
   activeMode = selectedMode;
   score = 0;
   mimicCleared = activeMode !== "lunatic";

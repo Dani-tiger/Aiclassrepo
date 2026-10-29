@@ -2574,3 +2574,28 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+.app-shell.is-playing {
+  width: min(100% - 40px, 1500px);
+}
+
+.play-screen {
+  position: static;
+  left: auto;
+  width: 100%;
+  max-width: none;
+  margin: 31px auto 0;
+  transform: none;
+}
+
+@media (max-width: 620px) {
+  .app-shell.is-playing {
+    width: min(100% - 28px, 520px);
+  }
+}
+
+@media (max-width: 420px) {
+  .app-shell.is-playing {
+    width: min(100% - 22px, 380px);
+  }
+}
